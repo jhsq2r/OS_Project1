@@ -5,7 +5,11 @@
 #include <sys/wait.h>
 
 void help(){
-        printf("Is this helping????");
+        printf("Program usage\n-h = help\n-n [int] = Num Children to Launch\n-s [int] = Num of children allowed at once\n
+                -t [int] = Num iterations for each child");
+        printf("Default values are -n 5 -s 3 -t 3\nThis Program is designed to take in 3 integers for Num Processes,
+                Num of processes allowed at once,\nand Num of iterations for each process");
+
 }
 
 int main(int argc, char** argv) {
@@ -32,30 +36,31 @@ int main(int argc, char** argv) {
                                 break;
                         case '?':
                                 help();
+                                return EXIT_FAILURE;
                                 break;
                 }
         }
-        printf("Num Children: %d \nNum at once: %d \nNum iters: %d", proc,simul,iter);
+        //printf("Num Children: %d \nNum at once: %d \nNum iters: %d", proc,simul,iter);
         
         char convert[10];
         sprintf(convert, "%d", iter);
-        //Make child here
+        
         for(int i = 0; i < proc; i++){
                 if (i >= simul){
                         pid_t done_id = wait(NULL);
-                        printf("Process: %d is done\n", done_id);
+                        //printf("Process: %d is done\n", done_id);
                 }
 
-        pid_t child_pid = fork();
-        if (child_pid == 0){
-                printf("This is child %d\n", getpid());
+                pid_t child_pid = fork();
+                if (child_pid == 0){
+                        //printf("This is child %d\n", getpid());
 
-                char *args[] = {"./worker", convert, NULL};
-                execvp("./worker", args);
+                        char *args[] = {"./worker", convert, NULL};
+                        execvp("./worker", args);
 
-                printf("Something horrible happened...\n");
-                exit(1);
-        }
+                        printf("Something horrible happened...\n");
+                        exit(1);
+                }
         }
         for(int i = 0; i < simul; i++){
                 wait(NULL);
