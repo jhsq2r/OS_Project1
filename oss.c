@@ -4,6 +4,9 @@
 #include <getopt.h>
 #include <sys/wait.h>
 
+//Creator: Jarod Stagner
+//Turn-in date: 09/13/2023
+
 void help(){
         printf("Program usage\n-h = help\n-n [int] = Num Children to Launch\n-s [int] = Num of children allowed at once\n
                 -t [int] = Num iterations for each child");
