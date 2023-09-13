@@ -4,5 +4,7 @@
 
 int main(int argc, char** argv){
 
+        printf("Takeover works");
+        return 0;
 }
 
