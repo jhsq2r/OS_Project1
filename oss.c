@@ -19,7 +19,7 @@ int main(int argc, char** argv) {
         int iter = 3;//default parameters
 
         int option;
-        while((option = getopt(argc, argv, "hn:s:t:")) != -1) {
+        while((option = getopt(argc, argv, "hn:s:t:")) != -1) {//Read command line arguments
                 switch(option){
                         case 'h':
                                 help();
@@ -43,11 +43,11 @@ int main(int argc, char** argv) {
         //printf("Num Children: %d \nNum at once: %d \nNum iters: %d", proc,simul,iter);
         
         char convert[10];
-        sprintf(convert, "%d", iter);
+        sprintf(convert, "%d", iter);//convert iter value to char
         
         for(int i = 0; i < proc; i++){
                 if (i >= simul){
-                        pid_t done_id = wait(NULL);
+                        pid_t done_id = wait(NULL);//wait for a process to die before starting another
                         //printf("Process: %d is done\n", done_id);
                 }
 
@@ -56,14 +56,14 @@ int main(int argc, char** argv) {
                         //printf("This is child %d\n", getpid());
 
                         char *args[] = {"./worker", convert, NULL};
-                        execvp("./worker", args);
+                        execvp("./worker", args);//launch worker
 
                         printf("Something horrible happened...\n");
                         exit(1);
                 }
         }
         for(int i = 0; i < simul; i++){
-                wait(NULL);
+                wait(NULL);//wait for all children to die
         }
         printf("Done");
         return 0;
